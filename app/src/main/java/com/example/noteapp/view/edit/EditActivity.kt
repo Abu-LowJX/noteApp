@@ -7,13 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.noteapp.databinding.ActivityEditBinding
 import com.example.noteapp.remote.ApiRetrofit
 import com.example.noteapp.viewmodel.NoteModel
-import com.example.noteapp.viewmodel.SubmitModel
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
 
 
 class EditActivity : AppCompatActivity() {
@@ -34,17 +31,21 @@ class EditActivity : AppCompatActivity() {
         binding.buttonUpdate.setOnClickListener {
             val message = binding.updateNote.text.toString()
             api.update(note.id!!, message)
-                .enqueue(object : Callback<SubmitModel> {
-                    override fun onResponse(call: Call<SubmitModel>, response: Response<SubmitModel>) {
-                        if (response.isSuccessful)
-                            Toast.makeText(applicationContext, response.body()!!.message, Toast.LENGTH_LONG).show()
-                        finish()
+                .enqueue(object : Callback<ResponseBody> {
+
+                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                        Log.e("EditActivity", response.isSuccessful.toString())
+                        if (response.isSuccessful) {
+                            finish()
+                            Toast.makeText(applicationContext, response.toString(), Toast.LENGTH_LONG).show()
+                        }
                     }
 
-                    override fun onFailure(call: Call<SubmitModel>, t: Throwable) {
-                        Log.e("EditActivity", t.message.toString())
+                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                        Log.e("1", t.localizedMessage!! + call.toString())
+                        Log.e("2", t.printStackTrace().toString())
                         Toast.makeText(applicationContext, t.message, Toast.LENGTH_LONG).show()
-                        finish()
+                        //finish()
                     }
                 })
         }

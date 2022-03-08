@@ -26,7 +26,7 @@ class ApiRetrofit {
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://wehealth.000webhostapp.com/local/")
                 .client(client)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create())
                 .build()
             return retrofit.create(ApiEndpoint::class.java)
         }

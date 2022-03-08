@@ -6,7 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.noteapp.databinding.ActivityCreateBinding
 import com.example.noteapp.remote.ApiRetrofit
-import com.example.noteapp.viewmodel.SubmitModel
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,14 +29,15 @@ class CreateActivity : AppCompatActivity() {
             if (message.isNotEmpty()) {
                 Log.e("CreateActivity", message)
                 api.create(message)
-                    .enqueue(object : Callback<SubmitModel> {
-                        override fun onResponse(call: Call<SubmitModel>, response: Response<SubmitModel>) {
-                            if (response.isSuccessful)
-                                Toast.makeText(applicationContext, response.body()!!.message, Toast.LENGTH_LONG).show()
-                            finish()
+                    .enqueue(object : Callback<ResponseBody> {
+                        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                            if (response.isSuccessful) {
+                                Toast.makeText(applicationContext, response.body()!!.toString(), Toast.LENGTH_LONG).show()
+                                finish()
+                            }
                         }
 
-                        override fun onFailure(call: Call<SubmitModel>, t: Throwable) {
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                             TODO("Not yet implemented")
                         }
 

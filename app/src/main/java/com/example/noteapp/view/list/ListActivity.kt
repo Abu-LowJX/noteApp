@@ -10,7 +10,7 @@ import com.example.noteapp.remote.ApiRetrofit
 import com.example.noteapp.view.create.CreateActivity
 import com.example.noteapp.view.edit.EditActivity
 import com.example.noteapp.viewmodel.NoteModel
-import com.example.noteapp.viewmodel.SubmitModel
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -52,14 +52,14 @@ class ListActivity : AppCompatActivity() {
 
             override fun onDelete(note: NoteModel.Data) {
                 api.delete(note.id!!)
-                    .enqueue(object : Callback<SubmitModel> {
-                        override fun onResponse(call: Call<SubmitModel>, response: Response<SubmitModel>) {
+                    .enqueue(object : Callback<ResponseBody> {
+                        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                             if (response.isSuccessful)
-                                Toast.makeText(applicationContext, response.body()!!.message, Toast.LENGTH_LONG).show()
+                                Toast.makeText(applicationContext, response.body().toString(), Toast.LENGTH_LONG).show()
                             getNote()
                         }
 
-                        override fun onFailure(call: Call<SubmitModel>, t: Throwable) {
+                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                             Log.e("ListActivity", t.message.toString())
                             getNote()
                         }

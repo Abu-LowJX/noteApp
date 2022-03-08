@@ -1,6 +1,5 @@
 package com.example.noteapp.viewmodel
 
-import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class NoteModel(

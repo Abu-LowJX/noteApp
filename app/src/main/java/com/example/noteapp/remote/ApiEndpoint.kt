@@ -1,12 +1,9 @@
 package com.example.noteapp.remote
 
 import com.example.noteapp.viewmodel.NoteModel
-import com.example.noteapp.viewmodel.SubmitModel
+import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiEndpoint {
     @GET("get.php")
@@ -16,18 +13,18 @@ interface ApiEndpoint {
     @POST("create.php")
     fun create(
         @Field("note") note:String
-    ):Call<SubmitModel>
+    ):Call<ResponseBody>
 
     @FormUrlEncoded
     @POST("update.php")
     fun update(
         @Field("id") id:String ,
         @Field("note") note:String
-    ):Call<SubmitModel>
+    ):Call<ResponseBody>
 
     @FormUrlEncoded
     @POST("delete.php")
     fun delete(
         @Field("id") id:String
-    ):Call<SubmitModel>
+    ):Call<ResponseBody>
 }
